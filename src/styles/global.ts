@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
     :root {
@@ -6,8 +6,8 @@ export const GlobalStyles = createGlobalStyle`
         --blue: #5429CC;
         --green: #33CC95;
         --blue-light: #6933FF;
-        --text-title: #363f5f;
-        --white: #FFF;
+        --gray: #363f5f;
+        --black: #000;
     }
     * {
         margin: 0;
@@ -42,4 +42,9 @@ export const GlobalStyles = createGlobalStyle`
         opacity:0.6;
         cursor: not-allowed;
     }
-`
+`;
+
+export const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+`;

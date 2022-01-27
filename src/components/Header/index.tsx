@@ -1,7 +1,7 @@
 import { Container, Division } from "./styles";
 import { Search } from "../Search";
 
-import { BsFillInfoCircleFill } from "react-icons/bs";
+import { BsInfoCircle } from "react-icons/bs";
 import { BiWorld } from 'react-icons/bi';
 
 export function Header() {
@@ -16,7 +16,7 @@ export function Header() {
       </Division>
       <Division>
         <p>CURIOSIDADES</p>
-        <BsFillInfoCircleFill />
+        <BsInfoCircle />
       </Division>
     </Container>
   );
