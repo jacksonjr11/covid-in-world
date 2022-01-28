@@ -7,9 +7,11 @@ interface GlobalProviderProps {
 }
 
 interface GlobalDataContext {
+  active: number;
   deaths: number;
   cases: number;
   tests: number;
+  recovered: number;
   vaccine: number;
   todayRecovered: number;
   todayDeaths: number;
@@ -41,10 +43,20 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
     await axios.get(`${BASE_URL}/countries`);
   }
 
+  async function getVaccineTotal() {
+    data.loading = true;
+    await axios.get(`${BASE_URL}/vaccine/coverage`).then((res) => {
+      let list = Object.values(res.data);
+      let totalVaccine = Number(list[list.length - 1]);
+      return setData((prev) => ({ ...prev, vaccine: totalVaccine }));
+    });
+  }
+
   useEffect(() => {
     getInfoGlobal();
     getContinentsAll();
     getCountriesAll();
+    getVaccineTotal();
   }, []);
 
   return (
