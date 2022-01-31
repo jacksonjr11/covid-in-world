@@ -17,7 +17,10 @@ interface GlobalDataContext {
   todayDeaths: number;
   todayCases: number;
   loading: boolean;
+  continent: string;
 }
+
+type DatasCovid = Omit<GlobalDataContext,"loading">
 
 export const GlobalContext = createContext<GlobalDataContext>(
   {} as GlobalDataContext
@@ -40,7 +43,7 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
 
   async function getContinentsAll() {
     data.loading = true;
-    await axios.get(`${BASE_URL}/countries`);
+    await axios.get(`${BASE_URL}/continents`);
   }
 
   async function getVaccineTotal() {
