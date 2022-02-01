@@ -28,13 +28,19 @@ export const Location = styled.div`
       margin-left: 1rem;
     }
 
-    &:hover {
-      background: #ccc;
+    &:not(:disabled):hover {
+      background: #dcdcdc;
     }
 
     > svg {
       font-size: 1.8rem;
     }
+  }
+
+  p {
+    width: fit-content;
+    min-width: 10rem;
+    text-align: center;
   }
 `;
 
