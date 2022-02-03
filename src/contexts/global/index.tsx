@@ -17,7 +17,7 @@ interface DataCovid {
   cases: number;
   tests: number;
   recovered: number;
-  vaccine?: number;
+  vaccine: number;
   todayRecovered: number;
   todayDeaths: number;
   todayCases: number;
@@ -33,44 +33,43 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
   const [data, setData] = useState<GlobalDataContext>({} as GlobalDataContext);
 
   async function getContinentsAll() {
-    data.loading = true;
+    setData((prev) => ({ ...prev, loading: true }));
     await axios.get(`${BASE_URL}/continents`).then((res) => {
       setData((prev) => ({ ...prev, list: res.data }));
-      data.loading = false;
     });
+    setData((prev) => ({ ...prev, loading: false }));
   }
 
   async function getInfoGlobal() {
-    data.loading = true;
+    setData((prev) => ({ ...prev, loading: true }));
     await axios.get(`${BASE_URL}/all`).then((res) => {
       setData((prev) => ({ ...prev, list: [res.data, ...prev.list] }));
-      data.loading = false;
     });
+    setData((prev) => ({ ...prev, loading: false }));
   }
 
   async function getVaccineTotal() {
-    data.loading = true;
+    setData((prev) => ({ ...prev, loading: true }));
     await axios.get(`${BASE_URL}/vaccine/coverage`).then((res) => {
       let list = Object.values(res.data);
       let totalVaccine = Number(list[list.length - 1]);
-      // return setData((prev) => ({ ...prev, vaccine: totalVaccine }));
-      data.loading = false;
+      // setData((prev) => ({ ...prev, list: [...prev.list , list[0{ vaccine: totalVaccine }] }));
     });
+    setData((prev) => ({ ...prev, loading: false }));
   }
 
   async function getCountriesAll() {
-    data.loading = true;
-    await axios.get(`${BASE_URL}/countries`).then((res) => {
-      data.loading = false;
-    });
+    setData((prev) => ({ ...prev, loading: true }));
+    await axios.get(`${BASE_URL}/countries`).then((res) => {});
+    setData((prev) => ({ ...prev, loading: false }));
   }
 
   useEffect(() => {
     async function fetch() {
       await getContinentsAll();
       await getInfoGlobal();
-      await getCountriesAll();
       await getVaccineTotal();
+      await getCountriesAll();
     }
     fetch();
   }, []);

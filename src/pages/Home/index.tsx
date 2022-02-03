@@ -49,6 +49,7 @@ export function Home() {
     }
   }
 
+  console.log(list);
   return (
     <Container>
       {loading && !list ? (
@@ -75,33 +76,59 @@ export function Home() {
               <h1>Divisão dos casos</h1>
               <Pie data={dataPie} title="Divisão dos casos totais" />
             </Division>
+            <SectionToday>
+              <p>( Hoje )</p>
+              <div>
+                <Summary
+                  data={list ? list[page].todayCases : "sem informações"}
+                  icon={MdOutlineCoronavirus}
+                  description="casos confirmados"
+                />
+                <Summary
+                  data={list ? list[page].todayDeaths : "sem informações"}
+                  icon={MdOutlineCoronavirus}
+                  description="mortos"
+                />
+                <Summary
+                  data={list ? list[page].todayRecovered : "sem informações"}
+                  icon={MdOutlineCoronavirus}
+                  description="recuperados"
+                />
+              </div>
+            </SectionToday>
             <Division>
               <p>( Total )</p>
-              <Summary
-                data={list ? list[page].cases : "sem informações"}
-                icon={MdOutlineCoronavirus}
-                description="casos confirmados"
-              />
-              <Summary
-                data={list ? list[page].tests : "sem informações"}
-                icon={MdOutlineScience}
-                description="testes aplicados"
-              />
-              {/* <Summary
-            data={list ? 'sem informações' : list[page].vaccine}
-            icon={FaSyringe}
-            description="doses de vacinas aplicadas"
-          /> */}
-              <Summary
-                data={list ? list[page].recovered : "sem informações"}
-                icon={GiMedicalPackAlt}
-                description="recuperados"
-              />
-              <Summary
-                data={list ? list[page].deaths : "sem informações"}
-                icon={ImHeartBroken}
-                description="mortos"
-              />
+              <div>
+                <Summary
+                  data={list ? list[page].cases : "sem informações"}
+                  icon={MdOutlineCoronavirus}
+                  description="casos confirmados"
+                />
+                <Summary
+                  data={list ? list[page].tests : "sem informações"}
+                  icon={MdOutlineScience}
+                  description="testes aplicados"
+                />
+                {list && list[page].vaccine ? (
+                  <Summary
+                    data={list[page].vaccine}
+                    icon={FaSyringe}
+                    description="doses de vacinas aplicadas"
+                  />
+                ) : (
+                  <></>
+                )}
+                <Summary
+                  data={list ? list[page].recovered : "sem informações"}
+                  icon={GiMedicalPackAlt}
+                  description="recuperados"
+                />
+                <Summary
+                  data={list ? list[page].deaths : "sem informações"}
+                  icon={ImHeartBroken}
+                  description="mortos"
+                />
+              </div>
             </Division>
           </ContainerData>
         </>

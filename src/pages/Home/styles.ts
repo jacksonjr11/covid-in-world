@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   max-width: 1200px;
+  height: fit-content;
   margin: 0 auto;
 `;
 
@@ -47,11 +48,17 @@ export const Location = styled.div`
 export const ContainerData = styled.div`
   margin-top: 2rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-around;
 
   h1 {
+    width: max-content;
     margin-bottom: 1rem;
+  }
+
+  @media (max-width: 975px) {
+    flex-direction: column;
+    align-items: center;
   }
 `;
 
@@ -60,18 +67,40 @@ export const Division = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  max-width: 100%;
+
+  > p {
+    margin: 1rem auto 2rem;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
 
   &:first-child {
     width: 28%;
     align-items: center;
   }
 
-  > p {
-    margin: 1rem auto;
-  }
-
   > div + div {
     margin-top: 1.5rem;
+  }
+
+  @media (max-width: 975px) {
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem;
+
+    &:first-child {
+      width: fit-content;
+      align-items: center;
+    }
+
+    p + div {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+
+  
   }
 `;
 
@@ -80,4 +109,39 @@ export const SectionToday = styled.section`
   align-items: center;
   justify-content: space-evenly;
   width: 100%;
+
+  > div {
+    width: 100%;
+  }
+
+  > p {
+    margin: 1rem auto 2rem;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+  @media (max-width: 975px) {
+    margin-top: 2rem;
+    flex-direction: column;
+
+    > div {
+      display: grid;
+      grid-template:
+        "areaTop1 areaTop2"
+        "areaBottom areaBottom";
+      gap: 1rem;
+      padding: 1.5rem;
+
+      > div {
+        grid-area: areaTop1;
+      }
+      > div + div {
+        grid-area: areaTop2;
+      }
+      > div:last-child {
+        grid-area: areaBottom;
+        margin: auto;
+      }
+    }
+  }
 `;
