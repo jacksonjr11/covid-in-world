@@ -86,12 +86,12 @@ export function Home() {
                 />
                 <Summary
                   data={list ? list[page].todayDeaths : "sem informações"}
-                  icon={MdOutlineCoronavirus}
+                  icon={ImHeartBroken}
                   description="mortos"
                 />
                 <Summary
                   data={list ? list[page].todayRecovered : "sem informações"}
-                  icon={MdOutlineCoronavirus}
+                  icon={GiMedicalPackAlt}
                   description="recuperados"
                 />
               </div>
