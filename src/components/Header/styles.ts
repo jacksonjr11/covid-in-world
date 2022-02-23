@@ -32,10 +32,11 @@ export const Division = styled.div`
     }
   }
 
-  > p {
+  > p, a {
     font-size: 1.2rem;
     font-family: "Poppins", sans-serif;
     font-weight: 600;
     color: var(--black);
+    text-decoration: none;
   }
 `;

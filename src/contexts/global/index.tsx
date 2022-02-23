@@ -1,6 +1,10 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import axios from "axios";
-import { BASE_URL } from "../../constants/index";
+import { useQuery } from "react-query";
+import {
+  fetchInfoContinents,
+  fetchInfoCountries,
+  fetchInfoGlobal,
+} from "../../services/requestsGlobal";
 
 interface GlobalProviderProps {
   children: ReactNode;
@@ -8,7 +12,6 @@ interface GlobalProviderProps {
 
 interface GlobalDataContext {
   list: DataCovid[];
-  loading: boolean;
 }
 
 interface DataCovid {
@@ -17,11 +20,9 @@ interface DataCovid {
   cases: number;
   tests: number;
   recovered: number;
-  vaccine: number;
   todayRecovered: number;
   todayDeaths: number;
   todayCases: number;
-  loading: boolean;
   continent?: string;
 }
 
@@ -30,49 +31,37 @@ export const GlobalContext = createContext<GlobalDataContext>(
 );
 
 export function GlobalProvider({ children }: GlobalProviderProps) {
-  const [data, setData] = useState<GlobalDataContext>({} as GlobalDataContext);
+  const [data, setData] = useState<GlobalDataContext>({
+    list: [],
+  });
+  const staleTime = {
+    staleTime: 60000 * 120, // 2 hours
+  };
 
-  async function getContinentsAll() {
-    setData((prev) => ({ ...prev, loading: true }));
-    await axios.get(`${BASE_URL}/continents`).then((res) => {
-      setData((prev) => ({ ...prev, list: res.data }));
-    });
-    setData((prev) => ({ ...prev, loading: false }));
-  }
-
-  async function getInfoGlobal() {
-    setData((prev) => ({ ...prev, loading: true }));
-    await axios.get(`${BASE_URL}/all`).then((res) => {
-      setData((prev) => ({ ...prev, list: [res.data, ...prev.list] }));
-    });
-    setData((prev) => ({ ...prev, loading: false }));
-  }
-
-  async function getVaccineTotal() {
-    setData((prev) => ({ ...prev, loading: true }));
-    await axios.get(`${BASE_URL}/vaccine/coverage`).then((res) => {
-      let list = Object.values(res.data);
-      let totalVaccine = Number(list[list.length - 1]);
-      // setData((prev) => ({ ...prev, list: [...prev.list , list[0{ vaccine: totalVaccine }] }));
-    });
-    setData((prev) => ({ ...prev, loading: false }));
-  }
-
-  async function getCountriesAll() {
-    setData((prev) => ({ ...prev, loading: true }));
-    await axios.get(`${BASE_URL}/countries`).then((res) => {});
-    setData((prev) => ({ ...prev, loading: false }));
-  }
+  const { data: world } = useQuery<any>("world", fetchInfoGlobal, staleTime);
+  const { data: continents } = useQuery<DataCovid[]>(
+    "continents",
+    fetchInfoContinents,
+    staleTime
+  );
+  const { data: countries } = useQuery(
+    "countries",
+    fetchInfoCountries,
+    staleTime
+  );
 
   useEffect(() => {
-    async function fetch() {
-      await getContinentsAll();
-      await getInfoGlobal();
-      await getVaccineTotal();
-      await getCountriesAll();
-    }
-    fetch();
-  }, []);
+    continents?.map((continent) => {
+      return setData((prev) => ({
+        ...prev,
+        list: [...prev.list, continent],
+      }));
+    });
+  }, [continents]);
+
+  useEffect(() => {
+    if (world) setData((prev) => ({ ...prev, list: [world, ...prev.list] }));
+  }, [world]);
 
   return (
     <GlobalContext.Provider value={data}>{children}</GlobalContext.Provider>
