@@ -38,12 +38,24 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
     staleTime: 60000 * 120, // 2 hours
   };
 
-  const { data: world } = useQuery<any>("world", fetchInfoGlobal, staleTime);
-  const { data: continents } = useQuery<DataCovid[]>(
+  const {
+    data: world,
+    isLoading: isLoadingWorld,
+    isError: isErrorWorld,
+    error: errorWorld,
+  } = useQuery<any, Error>("world", fetchInfoGlobal, staleTime);
+
+  const {
+    data: continents,
+    isLoading: isLoadingContinents,
+    isError: isErrorContinents,
+    error: errorContinents,
+  } = useQuery<DataCovid[], Error>(
     "continents",
     fetchInfoContinents,
     staleTime
   );
+
   const { data: countries } = useQuery(
     "countries",
     fetchInfoCountries,
@@ -62,6 +74,17 @@ export function GlobalProvider({ children }: GlobalProviderProps) {
   useEffect(() => {
     if (world) setData((prev) => ({ ...prev, list: [world, ...prev.list] }));
   }, [world]);
+
+  if (isLoadingWorld || isLoadingContinents) {
+    return <h1>Carregando</h1>;
+  }
+
+  if (isErrorWorld || isErrorContinents) {
+    if (errorWorld) {
+      return <h1>{errorWorld?.message}</h1>;
+    }
+    return <h1>{errorContinents?.message}</h1>;
+  }
 
   return (
     <GlobalContext.Provider value={data}>{children}</GlobalContext.Provider>
