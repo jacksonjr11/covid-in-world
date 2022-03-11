@@ -52,7 +52,6 @@ export function Home() {
     }
   }
 
-  console.log(list);
   return (
     <Container>
       <Location>

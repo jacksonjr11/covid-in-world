@@ -25,3 +25,27 @@ export const Container = styled.div`
     font-size: 1.3rem;
   }
 `;
+
+export const ContainerRows = styled.div`
+  position: absolute;
+  margin-top: 0.3rem;
+
+  width: 100%;
+  height: fit-content;
+
+  border: 1px solid black;
+  border-radius: 0 0 0.5rem 0.5rem;
+`
+
+export const Row = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  width: 100%;
+  height: fit-content;
+
+  &:not(:first-child){
+
+  }
+`
