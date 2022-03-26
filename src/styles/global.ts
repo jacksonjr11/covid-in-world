@@ -49,6 +49,27 @@ export const GlobalStyles = createGlobalStyle`
         opacity:0.6;
         cursor: not-allowed;
     }
+
+    ::-webkit-scrollbar {
+        width: 15px;
+        padding: 0.5rem;
+        cursor: pointer;
+    }
+
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey; 
+        border-radius: 10px;
+    }
+        
+    ::-webkit-scrollbar-thumb {
+        background: var(--gray); 
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        filter: brightness(0.8);
+    }
 `;
 
 export const Container = styled.div`
